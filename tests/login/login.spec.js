@@ -1,5 +1,6 @@
 const { test, expect } = require("@playwright/test");
 const testData = require("../../Fixtures/Login.fixture.json");
+const { LoginPage } = require("../../pageObjects/login.po");
 
 // const { beforeEach } = require("node:test");
 
@@ -14,88 +15,68 @@ test("has title", async ({ page }) => {
 
 test.describe("valid login tests", () => {
   test("login valid", async ({ page }) => {
-    await page.locator("#username").fill(testData.validUser.username);
-    await page.locator("#password").fill(testData.validUser.password);
-    await page.locator("#submit").click();
+    const login = new LoginPage(page);
+    await login.login(testData.validUser.username, testData.validUser.password);
 
-    await expect(page.locator(".post-title")).toHaveText(
-      /Logged In Successfully/
-    );
+    await login.verifyValidLogin();
   });
 });
 
 test.describe("invalid login tests", () => {
   test("login invalid", async ({ page }) => {
-    await page
-      .locator("#username")
-      .fill(testData.invalidUser.invalidCredentials.username);
-    await page
-      .locator("#password")
-      .fill(testData.invalidUser.invalidCredentials.password);
-    await page.locator("#submit").click();
-    const errorMessage = await page.locator("#error").textContent();
-    expect(errorMessage).toContain("Your username is invalid!");
+    const login = new LoginPage(page);
+    await login.login(
+      testData.invalidUser.invalidCredentials.username,
+      testData.invalidUser.invalidCredentials.password
+    );
+
+    await login.invalidLogin("Your username is invalid!");
+    // const errorMessage = await page.locator("#error").textContent();
+    // expect(errorMessage).toContain("Your username is invalid!");
   });
 
   test("empty field", async ({ page }) => {
-    await page
-      .locator("#username")
-      .fill(testData.invalidUser.emptyField.username);
-    await page
-      .locator("#password")
-      .fill(testData.invalidUser.emptyField.password);
-    await page.locator("#submit").click();
-    const errorMessage = await page.locator("#error").textContent();
-    expect(errorMessage).toContain("Your username is invalid!");
+    const login = new LoginPage(page);
+    await login.login(
+      testData.invalidUser.emptyField.username,
+      testData.invalidUser.emptyField.password
+    );
+    await login.invalidLogin("Your username is invalid!");
   });
 
   test("username empty", async ({ page }) => {
-    await page
-      .locator("#username")
-      .fill(testData.invalidUser.emptyUsername.username);
-    await page
-      .locator("#password")
-      .fill(testData.invalidUser.emptyUsername.password);
-    await page.locator("#submit").click();
-    const errorMessage = await page.locator("#error").textContent();
-    expect(errorMessage).toContain("Your username is invalid!");
+    const login = new LoginPage(page);
+    await login.login(
+      testData.invalidUser.emptyUsername.username,
+      testData.invalidUser.emptyUsername.password
+    );
+    await login.invalidLogin("Your username is invalid!");
   });
 
   test("Password empty", async ({ page }) => {
-    await page
-      .locator("#username")
-      .fill(testData.invalidUser.emptyPassword.username);
-    await page
-      .locator("#password")
-      .fill(testData.invalidUser.emptyPassword.password);
-
-    console.log(testData.invalidUser.emptyPassword.password);
-    await page.locator("#submit").click();
-    const errorMessage = await page.locator("#error").textContent();
-    expect(errorMessage).toContain("Your password is invalid!");
+    const login = new LoginPage(page);
+    await login.login(
+      testData.invalidUser.emptyPassword.username,
+      testData.invalidUser.emptyPassword.password
+    );
+    await login.invalidLogin("Your password is invalid!");
   });
 
   test("username with leading space", async ({ page }) => {
-    await page
-      .locator("#username")
-      .fill(testData.invalidUser.usernameLeadingSpace.username);
-    await page
-      .locator("#password")
-      .fill(testData.invalidUser.usernameLeadingSpace.password);
-    await page.locator("#submit").click();
-    const errorMessage = await page.locator("#error").textContent();
-    expect(errorMessage).toContain("Your username is invalid!");
+    const login = new LoginPage(page);
+    await login.login(
+      testData.invalidUser.usernameLeadingSpace.username,
+      testData.invalidUser.usernameLeadingSpace.password
+    );
+    await login.invalidLogin("Your username is invalid!");
   });
 
   test("password with leading space", async ({ page }) => {
-    await page
-      .locator("#username")
-      .fill(testData.invalidUser.passwordLeadingSpace.username);
-    await page
-      .locator("#password")
-      .fill(testData.invalidUser.passwordLeadingSpace.password);
-    await page.locator("#submit").click();
-    const errorMessage = await page.locator("#error").textContent();
-    expect(errorMessage).toContain("Your password is valid!");
+    const login = new LoginPage(page);
+    await login.login(
+      testData.invalidUser.passwordLeadingSpace.username,
+      testData.invalidUser.passwordLeadingSpace.password
+    );
+    await login.invalidLogin("Your password is invalid!");
   });
 });
