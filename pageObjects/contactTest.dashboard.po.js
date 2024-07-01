@@ -1,0 +1,62 @@
+const { expect } = require("@playwright/test");
+const testData = require("../Fixtures/Login.fixture.json");
+
+exports.DashboardPage = class DashboardPage {
+  constructor(page) {
+    this.page = page;
+    this.firstName = '//*[@id="firstName"]';
+    this.lastName = '//*[@id="lastName"]';
+    this.dob = '//*[@id="birthdate"]';
+    this.email = '//*[@id="email"]';
+    this.phone = '//*[@id="phone"]';
+    this.street1 = //*[@id="street1"]
+      this.street2 = '//*[@id="street2"]';
+    this.city = '//*[@id="city"]';
+    this.state = '//*[@id="stateProvince"]';
+    this.postalCode = '//*[@id="postalCode"]';
+    this.country = '//*[@id="country"]';
+    this.submitButton = '//*[@id="submit"]';
+    this.cancelButton = '//*[@id="cancel"]';
+    this.validateFormFilled = '//*[@id="myTable"]/tr[1]/td[2]';
+    this.editButton = '//*[@id="edit-contact"]';
+    this.editName = '//*[@id="firstName"]';
+    this.editSubmit = '//*[@id="submit"]';
+  }
+
+  async fillForm() {
+    await this.page.locator(this.firstName).fill(testData.fillForm.firstName);
+    await this.page.locator(this.lastName).fill(testData.fillForm.lastName);
+    await this.page.locator(this.dob).fill(testData.fillForm.dob);
+    await this.page.locator(this.email).fill(testData.fillForm.email);
+    await this.page.locator(this.phone).fill(testData.fillForm.phone);
+    await this.page.locator(this.street1).fill(testData.fillForm.street1);
+    await this.page.locator(this.street2).fill(testData.fillForm.street2);
+    await this.page.locator(this.city).fill(testData.fillForm.city);
+    await this.page.locator(this.state).fill(testData.fillForm.state);
+    await this.page.locator(this.postalCode).fill(testData.fillForm.postalcode);
+    await this.page.locator(this.country).fill(testData.fillForm.country);
+
+    await this.page.locator(this.submitButton).click();
+  }
+
+  async validFill() {
+    await expect(this.page.locator(this.validateFormFilled)).toHaveText(
+      "Ishan Pradhan"
+    );
+  }
+
+  async editData() {
+    await this.page.locator(this.validateFormFilled).click();
+
+    await this.page.locator(this.editButton).click();
+    await this.page.waitForTimeout(2000);
+    await this.page.locator(this.editName).fill(testData.fillForm.editName);
+    await this.page.locator(this.editSubmit).click();
+  }
+
+  async validEdit() {
+    await expect(this.page.locator('//*[@id="firstName"]')).toHaveText(
+      testData.fillForm.editName
+    );
+  }
+};
