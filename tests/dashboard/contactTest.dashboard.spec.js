@@ -22,6 +22,10 @@ test.describe("Dashboard crud check", () => {
     await dashboard.validFill();
     await dashboard.editData();
     await dashboard.validEdit();
+    await dashboard.deleteData();
+    await dashboard.validDelete();
+    await dashboard.logout();
+    await dashboard.validLogout();
 
     await page.waitForTimeout(10000);
   });

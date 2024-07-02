@@ -21,6 +21,10 @@ exports.DashboardPage = class DashboardPage {
     this.editButton = '//*[@id="edit-contact"]';
     this.editName = '//*[@id="firstName"]';
     this.editSubmit = '//*[@id="submit"]';
+    this.deleteButton = '//*[@id="delete"]';
+    this.logoutButton = '//*[@id="logout"]';
+    this.loginPageHeading = "//html/body/h1";
+    this.deleteValidation = "//html/body/div[1]/header/h1";
   }
 
   async fillForm() {
@@ -41,7 +45,7 @@ exports.DashboardPage = class DashboardPage {
 
   async validFill() {
     await expect(this.page.locator(this.validateFormFilled)).toHaveText(
-      "Ishan Pradhan"
+      `${testData.fillForm.firstName} ${testData.fillForm.lastName}`
     );
   }
 
@@ -57,6 +61,28 @@ exports.DashboardPage = class DashboardPage {
   async validEdit() {
     await expect(this.page.locator('//*[@id="firstName"]')).toHaveText(
       testData.fillForm.editName
+    );
+  }
+
+  async deleteData() {
+    await this.page.locator(this.deleteButton).click();
+    this.page.on("dialog", (dialog) => dialog.accept());
+  }
+
+  async validDelete() {
+    await this.page.waitForTimeout(3000);
+    await expect(this.page.locator(this.deleteValidation)).toHaveText(
+      "Contact Details"
+    );
+  }
+
+  async logout() {
+    await this.page.locator(this.logoutButton).click();
+  }
+
+  async validLogout() {
+    await expect(this.page.locator(this.loginPageHeading)).toHaveText(
+      "Contact List App"
     );
   }
 };
