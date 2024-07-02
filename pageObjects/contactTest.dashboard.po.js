@@ -9,8 +9,8 @@ exports.DashboardPage = class DashboardPage {
     this.dob = '//*[@id="birthdate"]';
     this.email = '//*[@id="email"]';
     this.phone = '//*[@id="phone"]';
-    this.street1 = //*[@id="street1"]
-      this.street2 = '//*[@id="street2"]';
+    this.street1 = '//*[@id="street1"]';
+    this.street2 = '//*[@id="street2"]';
     this.city = '//*[@id="city"]';
     this.state = '//*[@id="stateProvince"]';
     this.postalCode = '//*[@id="postalCode"]';
