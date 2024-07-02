@@ -40,10 +40,12 @@ exports.DashboardPage = class DashboardPage {
     await this.page.locator(this.postalCode).fill(testData.fillForm.postalcode);
     await this.page.locator(this.country).fill(testData.fillForm.country);
 
+    await this.page.waitForTimeout(2000);
     await this.page.locator(this.submitButton).click();
   }
 
   async validFill() {
+    await this.page.waitForTimeout(2000);
     await expect(this.page.locator(this.validateFormFilled)).toHaveText(
       `${testData.fillForm.firstName} ${testData.fillForm.lastName}`
     );
