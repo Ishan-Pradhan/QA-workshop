@@ -1,6 +1,6 @@
 {
   "validUser": {
-    "username": "ishan1@gmail.com",
+    "username": "ishan2@gmail.com",
     "password": "ishan123"
   },
   "invalidUser": {
@@ -32,8 +32,8 @@
   },
 
   "fillForm": {
-    "firstName": "Ishan",
-    "lastName": "Pradhan",
+    "firstName": "Rijen",
+    "lastName": "Maharjan",
     "dob": "2058/10/08",
     "email": "ishan@gmail.com",
     "phone": "9812345678",
@@ -43,6 +43,7 @@
     "state": "bagmati",
     "postalcode": "4404",
     "country": "Nepal",
-    "editName": "Rojen"
+    "editFirstName": "Rojen",
+    "editLastName": "Dangol"
   }
 }

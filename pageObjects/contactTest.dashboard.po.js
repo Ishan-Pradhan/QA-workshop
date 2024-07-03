@@ -19,7 +19,8 @@ exports.DashboardPage = class DashboardPage {
     this.cancelButton = '//*[@id="cancel"]';
     this.validateFormFilled = '//*[@id="myTable"]/tr[1]/td[2]';
     this.editButton = '//*[@id="edit-contact"]';
-    this.editName = '//*[@id="firstName"]';
+    this.editFirstName = '//*[@id="firstName"]';
+    this.editLastName = '//*[@id="lastName"]';
     this.editSubmit = '//*[@id="submit"]';
     this.deleteButton = '//*[@id="delete"]';
     this.logoutButton = '//*[@id="logout"]';
@@ -40,7 +41,7 @@ exports.DashboardPage = class DashboardPage {
     await this.page.locator(this.postalCode).fill(testData.fillForm.postalcode);
     await this.page.locator(this.country).fill(testData.fillForm.country);
 
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(5000);
     await this.page.locator(this.submitButton).click();
   }
 
@@ -56,25 +57,35 @@ exports.DashboardPage = class DashboardPage {
 
     await this.page.locator(this.editButton).click();
     await this.page.waitForTimeout(2000);
-    await this.page.locator(this.editName).fill(testData.fillForm.editName);
+    await this.page
+      .locator(this.editFirstName)
+      .fill(testData.fillForm.editFirstName);
+    await this.page
+      .locator(this.editLastName)
+      .fill(testData.fillForm.editLastName);
     await this.page.locator(this.editSubmit).click();
   }
 
   async validEdit() {
+    await this.page.waitForTimeout(2000);
+
     await expect(this.page.locator('//*[@id="firstName"]')).toHaveText(
-      testData.fillForm.editName
+      testData.fillForm.editFirstName
     );
   }
 
   async deleteData() {
-    await this.page.locator(this.deleteButton).click();
+    await this.page.locator(this.validateFormFilled).click();
+    this.page.waitForTimeout(2000);
     this.page.on("dialog", (dialog) => dialog.accept());
+    await this.page.locator(this.deleteButton).click();
+    this.page.waitForTimeout(2000);
   }
 
   async validDelete() {
     await this.page.waitForTimeout(3000);
     await expect(this.page.locator(this.deleteValidation)).toHaveText(
-      "Contact Details"
+      "Contact List"
     );
   }
 
