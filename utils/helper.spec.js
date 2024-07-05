@@ -15,7 +15,7 @@ async function authenticateUser1({ request }) {
     const response = await request.post(apiUrl + "users/login", {
       headers,
       data: {
-        email: "ishan2@gmail.com",
+        email: "ishan4@gmail.com",
         password: "ishan123",
       },
     });
@@ -36,11 +36,12 @@ async function authenticateUser1({ request }) {
 }
 async function createEntity(userData, accessToken, module, { request }) {
   const apiUrl = "https://thinking-tester-contact-list.herokuapp.com/";
+  // prettier-ignore
   const headers = {
     "Content-Type": "application/json",
-    Accept: "application/json",
-    authorization: "Bearer " + accessToken,
-    sig: "Automation",
+    'Accept': "application/json",
+    'authorization': "Bearer " + accessToken,
+    // 'sig': "Automation",
   };
   const response = await request.post(apiUrl + module, {
     headers,

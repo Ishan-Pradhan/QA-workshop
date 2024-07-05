@@ -30,7 +30,10 @@ test.describe("Dashboard CRUD Operations", () => {
   test("Edit Data and Validate", async ({ page }) => {
     const dashboard = new DashboardPage(page);
     await dashboard.editData();
+    page.waitForTimeout(2000);
+
     await dashboard.validEdit();
+    page.waitForTimeout(2000);
   });
 
   test("Delete Data and Validate", async ({ page }) => {
@@ -64,15 +67,16 @@ test.only("Contact Edit test", async ({ context, page, request }) => {
   await page.waitForTimeout(5000);
   await dashboard.editData();
   await page.waitForTimeout(5000);
+  await dashboard.deleteData();
 
-  test("Delete Data and Validate", async ({ page }) => {
-    const dashboard = new DashboardPage(page);
+  // test("Delete Data and Validate", async ({ page }) => {
+  //   const dashboard = new DashboardPage(page);
 
-    page.waitForTimeout(2000);
-    await dashboard.deleteData();
-    page.waitForTimeout(2000);
-    await dashboard.validDelete();
-  });
+  //   page.waitForTimeout(2000);
+  //   await dashboard.deleteData();
+  //   page.waitForTimeout(2000);
+  //   await dashboard.validDelete();
+  // });
 });
 
 async function intercept(module, { context, page }) {

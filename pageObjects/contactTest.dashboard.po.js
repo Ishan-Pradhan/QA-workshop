@@ -56,7 +56,7 @@ exports.DashboardPage = class DashboardPage {
     await this.page.locator(this.validateFormFilled).click();
 
     await this.page.locator(this.editButton).click();
-    await this.page.waitForTimeout(2000);
+    // await this.page.waitForTimeout(2000);
     await this.page
       .locator(this.editFirstName)
       .fill(testData.fillForm.editFirstName);
