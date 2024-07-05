@@ -2,9 +2,11 @@ const { test, expect } = require("@playwright/test");
 const testData = require("../../Fixtures/Login.fixture.json");
 const { LoginPage } = require("../../pageObjects/contactTest.login.po");
 
+let interceptId;
+
 const {
   TodayDate,
-  authneticateUser1,
+  authenticateUser1,
   createEntity,
 } = require("../../utils/helper.spec");
 const { DashboardPage } = require("../../pageObjects/contactTest.dashboard.po");
@@ -16,7 +18,7 @@ test.beforeEach(async ({ page }) => {
   await login.verifyValidLogin();
 });
 
-test.describe.only("Dashboard CRUD Operations", () => {
+test.describe("Dashboard CRUD Operations", () => {
   test("Fill Form and Validate", async ({ page }) => {
     await page.locator('//*[@id="add-contact"]').click();
     const dashboard = new DashboardPage(page);
@@ -47,11 +49,11 @@ test.describe.only("Dashboard CRUD Operations", () => {
   });
 });
 
-test("Contact Edit test", async ({ context, page, request }) => {
+test.only("Contact Edit test", async ({ context, page, request }) => {
   const dashboard = new DashboardPage(page);
   const Data = { firstName: "hello", lastName: "world" };
-  const accessToken = await authneticateUser1({ request });
-  const entityId = await createEntity(Data, accessToken, "/contacts", {
+  const accessToken = await authenticateUser1({ request });
+  const entityId = await createEntity(Data, accessToken, "contacts", {
     request,
   });
   await intercept(
@@ -60,8 +62,17 @@ test("Contact Edit test", async ({ context, page, request }) => {
   );
   await page.reload();
   await page.waitForTimeout(5000);
-  await dashboard.contactEdit();
+  await dashboard.editData();
   await page.waitForTimeout(5000);
+
+  test("Delete Data and Validate", async ({ page }) => {
+    const dashboard = new DashboardPage(page);
+
+    page.waitForTimeout(2000);
+    await dashboard.deleteData();
+    page.waitForTimeout(2000);
+    await dashboard.validDelete();
+  });
 });
 
 async function intercept(module, { context, page }) {
